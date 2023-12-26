@@ -31,7 +31,7 @@ class _homeState extends State<home> {
         leading: Theme(
           data: Theme.of(context).copyWith(
             popupMenuTheme: PopupMenuThemeData(
-              color: Colors.amber,
+              color: Colors.amber[100],
             ),
           ),
           child: PopupMenuButton(
@@ -52,7 +52,7 @@ class _homeState extends State<home> {
                   "Make a transaction",
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 12,
+                      fontSize: 16,
                       color: Colors.grey[850]
                   ),
                 ),
@@ -63,7 +63,7 @@ class _homeState extends State<home> {
                   "Show history",
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 12,
+                      fontSize: 16,
                       color: Colors.grey[850]
                   ),
                 ),
@@ -75,57 +75,59 @@ class _homeState extends State<home> {
         ),
       ),
 
-      body: Center(
-        child: Column(
-          children: [
+      body: SingleChildScrollView(
+        child: Center(
+          child: Column(
+            children: [
 
-            Padding(
-              padding: EdgeInsets.fromLTRB(0, 40, 0, 5),
-              child: Text(
-                "Welcome user!",
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 36,
-                    color: Colors.amber
+              Padding(
+                padding: EdgeInsets.fromLTRB(0, 100, 0, 30),
+                child: Text(
+                  "Welcome user!",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 36,
+                      color: Colors.amber
+                  ),
                 ),
               ),
-            ),
 
-            Card(
-              color: Colors.grey[850],
-              elevation: 15,
-              child: SizedBox(
-                width: 300,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.all(5.0),
-                      child: Text(
-                        "Your balance:",
-                        style: TextStyle(
-                            fontWeight: FontWeight.normal,
-                            fontSize: 12,
-                            color: Colors.amber
+              Card(
+                color: Colors.grey[850],
+                elevation: 15,
+                child: SizedBox(
+                  width: 300,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.all(5.0),
+                        child: Text(
+                          "Your balance:",
+                          style: TextStyle(
+                              fontWeight: FontWeight.normal,
+                              fontSize: 12,
+                              color: Colors.amber
+                          ),
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(5.0),
-                      child: Text(
-                        "2500.12 PLN",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 24,
-                            color: Colors.amber
+                      Padding(
+                        padding: EdgeInsets.all(5.0),
+                        child: Text(
+                          "2500.12 PLN",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 24,
+                              color: Colors.amber[100]
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-            )
-          ],
+              )
+            ],
+          ),
         ),
       ),
     );

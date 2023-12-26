@@ -1,5 +1,5 @@
-import 'dart:js';
 
+import 'package:bank_web_app/pages/history.dart';
 import 'package:bank_web_app/pages/home.dart';
 import 'package:bank_web_app/pages/login.dart';
 import 'package:bank_web_app/pages/transaction.dart';
@@ -11,7 +11,7 @@ void main() => runApp(MaterialApp(
     '/login': (context) => login(),
     '/home': (context) => home(),
     '/transaction': (context) => transaction(),
-    '/history': (context) => home(),
-  },
+    '/history': (context) => history(),
+    },
   )
 );
