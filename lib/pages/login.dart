@@ -89,7 +89,7 @@ class _loginState extends State<login> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(120, 10, 5, 10),
+                      padding: const EdgeInsets.fromLTRB(90, 10, 5, 10),
                       child: OutlinedButton(
                         child: Text(
                           "Log in",
@@ -120,7 +120,7 @@ class _loginState extends State<login> {
                               fontSize: 12,
                               fontWeight: FontWeight.normal,
                               decoration: TextDecoration.underline,
-                              color: Colors.amber
+                              color: Colors.amber[100]
                           ),
                         ),
                       ),

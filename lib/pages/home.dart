@@ -43,31 +43,51 @@ class _homeState extends State<home> {
                 case 2:
                   Navigator.pushNamed(context, '/history');
                   break;
+                case 3:
+                  Navigator.pushNamed(context, '/details');
+                  break;
               }
             },
             offset: Offset(-20,60),
             itemBuilder: (BuildContext context) => <PopupMenuEntry>[
               PopupMenuItem(
-                child: Text(
-                  "Make a transaction",
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                      color: Colors.grey[850]
+                child: Center(
+                  child: Text(
+                    "Make a transaction",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                        color: Colors.grey[850]
+                    ),
                   ),
                 ),
                 value: 1,
               ),
               PopupMenuItem(
-                child: Text(
-                  "Show history",
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                      color: Colors.grey[850]
+                child: Center(
+                  child: Text(
+                    "Show history",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                        color: Colors.grey[850]
+                    ),
                   ),
                 ),
                 value: 2,
+              ),
+              PopupMenuItem(
+                child: Center(
+                  child: Text(
+                    "Show details of your account",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                        color: Colors.grey[850]
+                    ),
+                  ),
+                ),
+                value: 3,
               ),
             ],
             icon: Icon(Icons.menu),
