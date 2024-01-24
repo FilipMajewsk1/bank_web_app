@@ -2,24 +2,24 @@ import 'package:flutter/material.dart';
 
 class historyCard extends StatefulWidget {
 
-  final String name;
+  final String title;
   final String date;
   final String sum;
   final String accountNumber;
 
-  historyCard({required this.name, required this.date, required this.sum, required this.accountNumber});
+  historyCard({required this.title, required this.date, required this.sum, required this.accountNumber});
 
   @override
-  State<historyCard> createState() => _historyCardState(name: name, date: date, sum: sum, accountNumber: accountNumber);
+  State<historyCard> createState() => _historyCardState(title: title, date: date, sum: sum, accountNumber: accountNumber);
 }
 
 class _historyCardState extends State<historyCard> {
 
-  String name;
+  String title;
   String date;
   String sum;
   String accountNumber;
-  _historyCardState({required this.name, required this.date, required this.sum, required this.accountNumber});
+  _historyCardState({required this.title, required this.date, required this.sum, required this.accountNumber});
 
 
   @override
@@ -59,7 +59,7 @@ class _historyCardState extends State<historyCard> {
                         height: 30,
                         child: Center(
                           child: Text(
-                            name,
+                            title,
                             style: TextStyle(
                                 fontWeight: FontWeight.normal,
                                 fontSize: 20,

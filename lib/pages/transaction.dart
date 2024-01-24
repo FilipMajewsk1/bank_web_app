@@ -1,3 +1,4 @@
+import 'package:bank_web_app/controllers/SharedController.dart';
 import 'package:flutter/material.dart';
 
 class transaction extends StatefulWidget {
@@ -8,6 +9,10 @@ class transaction extends StatefulWidget {
 }
 
 class _transactionState extends State<transaction> {
+
+  TextEditingController titleController = TextEditingController();
+  TextEditingController accountController = TextEditingController();
+  TextEditingController sumController = TextEditingController();
 
   @override
   void initState() {
@@ -93,6 +98,7 @@ class _transactionState extends State<transaction> {
                 child: SizedBox(
                   width: 400,
                   child: TextFormField(
+                    controller: titleController,
                     style: TextStyle(
                       color: Colors.amber[100],
                     ),
@@ -167,6 +173,7 @@ class _transactionState extends State<transaction> {
                 child: SizedBox(
                   width: 400,
                   child: TextFormField(
+                    controller: accountController,
                     style: TextStyle(
                       color: Colors.amber[100],
                     ),
@@ -204,6 +211,7 @@ class _transactionState extends State<transaction> {
                 child: SizedBox(
                   width: 400,
                   child: TextFormField(
+                    controller: sumController,
                     style: TextStyle(
                       color: Colors.amber[100],
                     ),
@@ -239,7 +247,10 @@ class _transactionState extends State<transaction> {
                     side: BorderSide(color: Colors.amber),
                   ),
                   onPressed: () {
-                    Navigator.pushNamed(context, '/home');
+                    if(sumController.text!="" && titleController.text!="" && accountController!="") {
+                      SharedController.makeTransfer(titleController.text, sumController.text, accountController.text, "11111111111111111111111111");
+                      Navigator.pushNamed(context, '/home');
+                    }
                   },
                 ),
               ),

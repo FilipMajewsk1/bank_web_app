@@ -1,4 +1,11 @@
+import 'dart:html';
+
+import 'package:bank_web_app/controllers/SharedController.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../models/Account.dart';
+import '../tools/StateControll.dart';
 
 class home extends StatefulWidget {
   const home({Key? key}) : super(key: key);
@@ -16,6 +23,7 @@ class _homeState extends State<home> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       backgroundColor: Colors.grey[850],
       appBar: AppBar(
@@ -103,7 +111,7 @@ class _homeState extends State<home> {
               Padding(
                 padding: EdgeInsets.fromLTRB(0, 100, 0, 30),
                 child: Text(
-                  "Welcome user!",
+                  "Welcome "+Provider.of<StateControll>(context, listen: false).client!.name!,
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 36,
@@ -133,14 +141,23 @@ class _homeState extends State<home> {
                       ),
                       Padding(
                         padding: EdgeInsets.all(5.0),
-                        child: Text(
-                          "2500.12 PLN",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 24,
-                              color: Colors.amber[100]
-                          ),
-                        ),
+                        child:FutureBuilder<Account>(
+                          future: SharedController.getAccount(),
+                          builder:(context, snapshot) {
+                            if(snapshot.hasData){
+                              return Text(
+                                "${snapshot.data!.balance}",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 24,
+                                    color: Colors.amber[100]
+                                ),
+                              );
+                            } else{
+                              return CircularProgressIndicator();
+                            }
+                          }
+                        )
                       ),
                     ],
                   ),

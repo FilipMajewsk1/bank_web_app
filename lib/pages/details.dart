@@ -1,4 +1,9 @@
+import 'package:bank_web_app/controllers/SharedController.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../models/Client.dart';
+import '../tools/StateControll.dart';
 
 class details extends StatefulWidget {
   const details({Key? key}) : super(key: key);
@@ -8,10 +13,12 @@ class details extends StatefulWidget {
 }
 
 class _detailsState extends State<details> {
-
+  late Future<Client> futureClient;
+  late Client client;
   @override
   void initState() {
     super.initState();
+    futureClient = SharedController.getClient();
   }
 
   @override
@@ -61,7 +68,7 @@ class _detailsState extends State<details> {
                         Padding(
                           padding: EdgeInsets.all(5.0),
                           child: Text(
-                            "Adam Małysz",
+                            Provider.of<StateControll>(context, listen: false).client!.name!+ " " +Provider.of<StateControll>(context, listen: false).client!.surname!,
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 18,
@@ -166,7 +173,7 @@ class _detailsState extends State<details> {
                         Padding(
                           padding: EdgeInsets.all(5.0),
                           child: Text(
-                            "skaczedaleko@gmail.com",
+                            Provider.of<StateControll>(context, listen: false).client!.email!,
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 18,

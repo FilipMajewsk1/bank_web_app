@@ -1,5 +1,8 @@
+import 'package:bank_web_app/controllers/SharedController.dart';
 import 'package:bank_web_app/widgets/history_card.dart';
 import 'package:flutter/material.dart';
+
+import '../models/GetTransfer.dart';
 
 class history extends StatefulWidget {
   const history({Key? key}) : super(key: key);
@@ -10,10 +13,7 @@ class history extends StatefulWidget {
 
 class _historyState extends State<history> {
 
-  List<String> names = ["Stefan Hula", "Kamil Stoch"];
-  List<String> sums = ["+ 2000", "- 300"];
-  List <String> dates = ["12.10.2023", "30.04.2022"];
-  List <String> accountNumbers = ["11 1111 1111 11111 1111 1111 1111", "22 2222 2222 2222 2222 2222 2222"];
+  Future<List<GetTransfer>> list = SharedController.getAllTransfersForClient();
   @override
   void initState() {
     super.initState();
@@ -43,25 +43,34 @@ class _historyState extends State<history> {
           child:SizedBox(
             width: 550,
             height: 1000,
-            child: buildHistory(names, sums, dates, accountNumbers)
+            child: FutureBuilder<List<GetTransfer>>(
+                future: list,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    final listt = snapshot.data!;
+                    return buildHistory(listt);
+                  }
+                  else {
+                    return (Center(
+                        child:CircularProgressIndicator()));
+                  }
+                }
+            ),
           ),
         ),
       ),
     );
   }
-  Widget buildHistory(List<String> names, List<String> sums, List<String> dates, List<String> accountNumbers) =>
+  Widget buildHistory(List<GetTransfer> list) =>
     ListView.builder(
-      itemCount:  names.length,
+      itemCount:  list.length,
       itemBuilder: (context, index){
-        final name = names[index];
-        final date = dates[index];
-        final sum = sums[index];
-        final accountNumber = accountNumbers[index];
+        final transfer = list[index];
         return historyCard(
-          name: name,
-          sum: sum,
-          date: date,
-          accountNumber: accountNumber,
+          title: transfer.title,
+          sum: transfer.sum,
+          date: "12.04.2023",
+          accountNumber: transfer.fromAccountNumber,
         );
       }
     );
