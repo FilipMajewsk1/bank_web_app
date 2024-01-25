@@ -149,12 +149,19 @@ class _loginState extends State<login> {
                             setState(() {
                               lstate = Lstate.WAITING_FOR_RESPONSE;
                             });
-                            var result = await SharedController.logIn(passwordInstructions!.id!, emaliController.text, passwordController.text);
-                            if(result != null){
-                              var stateControll = Provider.of<StateControll>(context, listen: false);
-                              stateControll.setStateLogin(result);
-                              Navigator.of(context).push(MaterialPageRoute(builder: (context) => home()));
-                             }
+                            Future.delayed(Duration(seconds: 3), () async{
+                              var result = await SharedController.logIn(
+                                  passwordInstructions!.id!,
+                                  emaliController.text,
+                                  passwordController.text);
+                              if (result != null) {
+                                var stateControll = Provider.of<StateControll>(
+                                    context, listen: false);
+                                stateControll.setStateLogin(result);
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => home()));
+                              }
+                            });
                           }
                         },
                       ),
