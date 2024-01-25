@@ -21,7 +21,7 @@ class SharedController{
       listen: false);
 
   static Future<Client> getClient()async{
-    var response = await Requests.get(baseURL+"norm/clients/", withCredentials: true);
+    var response = await Requests.get(baseURL+"norm/clients", withCredentials: true);
     final bodyByte = utf8.decode(response.bodyBytes);
     final body  = json.decode(bodyByte);
     final client = Client.fromJson(body);
@@ -29,7 +29,7 @@ class SharedController{
   }
 
   static Future<Account> getAccount()async{
-    var response = await Requests.get(baseURL+"norm/accounts/", withCredentials: true);
+    var response = await Requests.get(baseURL+"norm/accounts", withCredentials: true);
     final bodyByte = utf8.decode(response.bodyBytes);
     final body  = json.decode(bodyByte);
     final client = Account.fromJson(body);
@@ -63,8 +63,11 @@ class SharedController{
   }
 
   static Future<MakeTransfer> makeTransfer(String title, String sum, String toAccountNumber,String fromAccountNumber)async{
+    if(sum[0] == "-"){
+      sum= sum.substring(1);
+    }
     var response = await Requests.post(
-      baseURL+"transfers",
+      baseURL+"norm/transfers",
       json: MakeTransfer( title: title, sum: sum, toAccountNumber: toAccountNumber,fromAccountNumber: fromAccountNumber),
       withCredentials: true
     );

@@ -1,4 +1,5 @@
 import 'package:bank_web_app/controllers/SharedController.dart';
+import 'package:bank_web_app/models/Account.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -14,11 +15,13 @@ class details extends StatefulWidget {
 
 class _detailsState extends State<details> {
   late Future<Client> futureClient;
-  late Client client;
+  late Future<Account> futureAccount;
+
   @override
   void initState() {
     super.initState();
     futureClient = SharedController.getClient();
+    futureAccount = SharedController.getAccount();
   }
 
   @override
@@ -67,14 +70,24 @@ class _detailsState extends State<details> {
                         ),
                         Padding(
                           padding: EdgeInsets.all(5.0),
-                          child: Text(
-                            Provider.of<StateControll>(context, listen: false).client!.name!+ " " +Provider.of<StateControll>(context, listen: false).client!.surname!,
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18,
-                                color: Colors.amber[100]
-                            ),
-                          ),
+                          child: FutureBuilder<Client>(
+                            future: futureClient,
+                            builder: (context, snapshot){
+                              if(snapshot.hasData) {
+                                return Text(
+                                  "${snapshot.data!.name} "+"${snapshot.data!.surname}",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18,
+                                      color: Colors.amber[100]
+                                  ),
+                                );
+                              } else{
+                                return CircularProgressIndicator();
+                              }
+                            },
+                          )
+
                         ),
                       ],
                     ),
@@ -102,14 +115,23 @@ class _detailsState extends State<details> {
                         ),
                         Padding(
                           padding: EdgeInsets.all(5.0),
-                          child: Text(
-                            "2500.12 PLN",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18,
-                                color: Colors.amber[100]
-                            ),
-                          ),
+                            child: FutureBuilder<Account>(
+                          future: futureAccount,
+                          builder: (context, snapshot){
+                            if(snapshot.hasData) {
+                              return Text(
+                                "${snapshot.data!.balance}",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                    color: Colors.amber[100]
+                                ),
+                              );
+                            } else{
+                              return CircularProgressIndicator();
+                            }
+                          },
+                        )
                         ),
                       ],
                     ),
@@ -137,14 +159,23 @@ class _detailsState extends State<details> {
                         ),
                         Padding(
                           padding: EdgeInsets.all(5.0),
-                          child: Text(
-                            "33 3333 3333 3333 3333 3333 3333",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18,
-                                color: Colors.amber[100]
-                            ),
-                          ),
+                            child: FutureBuilder<Account>(
+                              future: futureAccount,
+                              builder: (context, snapshot){
+                                if(snapshot.hasData) {
+                                  return Text(
+                                    "${snapshot.data!.accountNumber}",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18,
+                                        color: Colors.amber[100]
+                                    ),
+                                  );
+                                } else{
+                                  return CircularProgressIndicator();
+                                }
+                              },
+                            )
                         ),
                       ],
                     ),
@@ -171,15 +202,112 @@ class _detailsState extends State<details> {
                           ),
                         ),
                         Padding(
+                            padding: EdgeInsets.all(5.0),
+                            child: FutureBuilder<Client>(
+                              future: futureClient,
+                              builder: (context, snapshot){
+                                if(snapshot.hasData) {
+                                  return Text(
+                                    "${snapshot.data!.email}",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18,
+                                        color: Colors.amber[100]
+                                    ),
+                                  );
+                                } else{
+                                  return CircularProgressIndicator();
+                                }
+                              },
+                            )
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+
+                Card(
+                  color: Colors.grey[850],
+                  elevation: 15,
+                  child: SizedBox(
+                    width: 350,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Padding(
                           padding: EdgeInsets.all(5.0),
                           child: Text(
-                            Provider.of<StateControll>(context, listen: false).client!.email!,
+                            "Your pesel:",
                             style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18,
-                                color: Colors.amber[100]
+                                fontWeight: FontWeight.normal,
+                                fontSize: 12,
+                                color: Colors.amber
                             ),
                           ),
+                        ),
+                        Padding(
+                            padding: EdgeInsets.all(5.0),
+                            child: FutureBuilder<Client>(
+                              future: futureClient,
+                              builder: (context, snapshot){
+                                if(snapshot.hasData) {
+                                  return Text(
+                                    "${snapshot.data!.pesel}",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18,
+                                        color: Colors.amber[100]
+                                    ),
+                                  );
+                                } else{
+                                  return CircularProgressIndicator();
+                                }
+                              },
+                            )
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+
+                Card(
+                  color: Colors.grey[850],
+                  elevation: 15,
+                  child: SizedBox(
+                    width: 350,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.all(5.0),
+                          child: Text(
+                            "Your phone number:",
+                            style: TextStyle(
+                                fontWeight: FontWeight.normal,
+                                fontSize: 12,
+                                color: Colors.amber
+                            ),
+                          ),
+                        ),
+                        Padding(
+                            padding: EdgeInsets.all(5.0),
+                            child: FutureBuilder<Client>(
+                              future: futureClient,
+                              builder: (context, snapshot){
+                                if(snapshot.hasData) {
+                                  return Text(
+                                    "${snapshot.data!.phoneNum}",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18,
+                                        color: Colors.amber[100]
+                                    ),
+                                  );
+                                } else{
+                                  return CircularProgressIndicator();
+                                }
+                              },
+                            )
                         ),
                       ],
                     ),

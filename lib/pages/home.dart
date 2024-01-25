@@ -16,9 +16,19 @@ class home extends StatefulWidget {
 
 class _homeState extends State<home> {
 
+  late Future<Account> futureAccount;
+  late Account account;
+
   @override
   void initState() {
     super.initState();
+    futureAccount = SharedController.getAccount();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    futureAccount = SharedController.getAccount();
   }
 
   @override
@@ -142,7 +152,7 @@ class _homeState extends State<home> {
                       Padding(
                         padding: EdgeInsets.all(5.0),
                         child:FutureBuilder<Account>(
-                          future: SharedController.getAccount(),
+                          future: futureAccount,
                           builder:(context, snapshot) {
                             if(snapshot.hasData){
                               return Text(

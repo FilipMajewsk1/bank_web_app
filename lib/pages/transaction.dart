@@ -1,4 +1,5 @@
 import 'package:bank_web_app/controllers/SharedController.dart';
+import 'package:bank_web_app/models/Account.dart';
 import 'package:flutter/material.dart';
 
 class transaction extends StatefulWidget {
@@ -14,9 +15,13 @@ class _transactionState extends State<transaction> {
   TextEditingController accountController = TextEditingController();
   TextEditingController sumController = TextEditingController();
 
+  late Future<Account> futureAccount;
+  late Account account;
+
   @override
   void initState() {
     super.initState();
+    futureAccount = SharedController.getAccount();
   }
 
   @override
@@ -66,14 +71,24 @@ class _transactionState extends State<transaction> {
                         ),
                         Padding(
                           padding: EdgeInsets.all(5.0),
-                          child: Text(
-                            "2500.12 PLN",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 24,
-                                color: Colors.amber[100]
-                            ),
-                          ),
+                            child:FutureBuilder<Account>(
+                                future: futureAccount,
+                                builder:(context, snapshot) {
+                                  if(snapshot.hasData){
+                                    account = snapshot.data!;
+                                    return Text(
+                                      "${snapshot.data!.balance}",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 24,
+                                          color: Colors.amber[100]
+                                      ),
+                                    );
+                                  } else{
+                                    return CircularProgressIndicator();
+                                  }
+                                }
+                            )
                         ),
                       ],
                     ),
@@ -248,7 +263,11 @@ class _transactionState extends State<transaction> {
                   ),
                   onPressed: () {
                     if(sumController.text!="" && titleController.text!="" && accountController!="") {
-                      SharedController.makeTransfer(titleController.text, sumController.text, accountController.text, "11111111111111111111111111");
+                      SharedController.makeTransfer(
+                          titleController.text,
+                          sumController.text,
+                          accountController.text,
+                          account.accountNumber);
                       Navigator.pushNamed(context, '/home');
                     }
                   },

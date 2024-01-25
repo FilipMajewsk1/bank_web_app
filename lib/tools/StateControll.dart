@@ -30,12 +30,15 @@ class StateControll extends ChangeNotifier{
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
       if (_sessionValidity.value == null || !_isAuth) {
         _timer.cancel();
+        NavigationContext.mainNavKey.currentState?.pushNamedAndRemoveUntil("/login", (route) => false);
         return;
       }
       _sessionValidity.value = _sessionValidity.value! - 1;
       if (_sessionValidity.value == 0) {
         _timer.cancel();
         setStatelogout();
+        Navigator.popUntil(NavigationContext.mainNavKey.currentContext!,
+                (route) => route.isFirst);
       }
       _sessionValidity.notifyListeners();
     });

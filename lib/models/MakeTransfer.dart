@@ -13,10 +13,19 @@ class MakeTransfer{
 
   factory MakeTransfer.fromJson(Map<String, dynamic> json){
     return MakeTransfer(
-        title: json['title'],
-        sum: json['sum'],
-        fromAccountNumber: json['fromAccountNumber'],
-        toAccountNumber: json['toAccountNumber'],
+        title: json['title'] ?? '',
+        sum: json['sum']?? '',
+        fromAccountNumber: json['fromAccountNumber']?? '',
+        toAccountNumber: json['toAccountNumber']?? '',
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'title': title,
+      'sum': sum,
+      'fromAccountNumber': fromAccountNumber,
+      'toAccountNumber': toAccountNumber,
+    };
   }
 }
