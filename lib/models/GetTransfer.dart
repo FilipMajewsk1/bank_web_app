@@ -1,7 +1,7 @@
 class GetTransfer{
   int id;
   String title;
-  String sum;
+  double sum;
   String fromAccountNumber;
   String toAccountNumber;
 

@@ -7,14 +7,13 @@ import '../models/GetTransfer.dart';
 
 class history extends StatefulWidget {
   const history({Key? key}) : super(key: key);
-
   @override
   State<history> createState() => _historyState();
 }
 
 class _historyState extends State<history> {
 
-  var list;
+ var list;
 
   @override
   void initState() {
@@ -46,7 +45,7 @@ class _historyState extends State<history> {
           child:SizedBox(
             width: 550,
             height: 1000,
-            child: FutureBuilder<dynamic>(
+            child: FutureBuilder<List<dynamic>>(
                 future: list,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
@@ -54,7 +53,7 @@ class _historyState extends State<history> {
                       showErrorDialog(context);
                       return Text("");
                     }else {
-                      return buildHistory(snapshot.data);
+                      return buildHistory(snapshot.data!);
                     }
                   }
                   else {
@@ -68,14 +67,14 @@ class _historyState extends State<history> {
       ),
     );
   }
-  Widget buildHistory(List<GetTransfer> list) =>
+  Widget buildHistory(List<dynamic> list) =>
     ListView.builder(
       itemCount:  list.length,
       itemBuilder: (context, index){
         final transfer = list[index];
         return historyCard(
           title: transfer.title,
-          sum: transfer.sum,
+          sum: transfer.sum.toString(),
           date: "12.04.2023",
           accountNumber: transfer.fromAccountNumber,
         );

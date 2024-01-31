@@ -84,7 +84,7 @@ class SharedController{
     if(response.statusCode == 200) {
       final body = json.decode(response.body);
       return body.map<GetTransfer>((jsonItem) =>
-          MakeTransfer.fromJson(jsonItem as Map<String, dynamic>)).toList();
+          GetTransfer.fromJson(jsonItem as Map<String, dynamic>)).toList();
     } else{
       List<String> list = [];
       list.add("error");
