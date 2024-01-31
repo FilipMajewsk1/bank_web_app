@@ -75,8 +75,8 @@ class _historyState extends State<history> {
         return historyCard(
           title: transfer.title,
           sum: transfer.sum.toString(),
-          date: "12.04.2023",
-          accountNumber: transfer.fromAccountNumber,
+          fromAccountNumber: transfer.fromAccountNumber,
+          toAccountNumber: transfer.toAccountNumber,
         );
       }
     );

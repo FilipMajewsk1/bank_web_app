@@ -92,10 +92,10 @@ class SharedController{
     }
   }
 
-  static Future<dynamic> makeTransfer(String title, String sum, String toAccountNumber,String fromAccountNumber)async{
+  static Future<dynamic> makeTransfer(String title, String sum, String toAccountNumber)async{
     var response = await Requests.post(
       baseURL+"norm/transfers",
-      json: MakeTransfer( title: title, sum: sum, toAccountNumber: toAccountNumber,fromAccountNumber: fromAccountNumber),
+      json: MakeTransfer( title: title, sum: sum, toAccountNumber: toAccountNumber).toJson(),
       withCredentials: true
     );
     if(response.statusCode == 200) {

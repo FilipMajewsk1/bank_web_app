@@ -3,30 +3,30 @@ import 'package:flutter/material.dart';
 class historyCard extends StatefulWidget {
 
   final String title;
-  final String date;
   final String sum;
-  final String accountNumber;
+  final String toAccountNumber;
+  final String fromAccountNumber;
 
-  historyCard({required this.title, required this.date, required this.sum, required this.accountNumber});
+  historyCard({required this.title, required this.sum, required this.toAccountNumber, required this.fromAccountNumber});
 
   @override
-  State<historyCard> createState() => _historyCardState(title: title, date: date, sum: sum, accountNumber: accountNumber);
+  State<historyCard> createState() => _historyCardState(title: title, sum: sum, toAccountNumber: toAccountNumber, fromAccountNumber: fromAccountNumber);
 }
 
 class _historyCardState extends State<historyCard> {
 
   String title;
-  String date;
   String sum;
-  String accountNumber;
-  _historyCardState({required this.title, required this.date, required this.sum, required this.accountNumber});
+  String toAccountNumber;
+  String fromAccountNumber;
+  _historyCardState({required this.title, required this.sum, required this.toAccountNumber, required this.fromAccountNumber});
 
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 400,
-      height: 100,
+      width: 700,
+      height: 200,
       child: Card(
         color: Colors.grey[850],
         elevation: 15,
@@ -53,16 +53,16 @@ class _historyCardState extends State<historyCard> {
                 child: Column(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 25, 0, 10),
+                      padding: const EdgeInsets.fromLTRB(0, 55, 0, 20),
                       child: SizedBox(
-                        width: 150,
+                        width: 250,
                         height: 30,
                         child: Center(
                           child: Text(
                             title,
                             style: TextStyle(
-                                fontWeight: FontWeight.normal,
-                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
                                 color: Colors.amber
                             ),
                           ),
@@ -75,9 +75,23 @@ class _historyCardState extends State<historyCard> {
                       height: 20,
                       child: Center(
                         child: Text(
-                          accountNumber,
+                          "from: "+fromAccountNumber,
                           style: TextStyle(
-                              fontWeight: FontWeight.bold,
+                              fontWeight: FontWeight.normal,
+                              fontSize: 12,
+                              color: Colors.amber[100]
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 300,
+                      height: 20,
+                      child: Center(
+                        child: Text(
+                          "to: " +toAccountNumber,
+                          style: TextStyle(
+                              fontWeight: FontWeight.normal,
                               fontSize: 12,
                               color: Colors.amber[100]
                           ),
@@ -94,33 +108,18 @@ class _historyCardState extends State<historyCard> {
                 child: Column(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(150, 5, 0, 0),
+                      padding: const EdgeInsets.fromLTRB(0, 100, 0, 0),
                       child: SizedBox(
-                        width: 100,
-                        height: 20,
+                        width: 150,
+                        height: 30,
                         child: Center(
                           child: Text(
-                            date,
+                            sum + " PLN",
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                fontSize: 12,
-                                color: Colors.amber[100]
+                                fontSize: 20,
+                                color: Colors.amber
                             ),
-                          ),
-                        ),
-                      ),
-                    ),
-
-                    SizedBox(
-                      width: 150,
-                      height: 30,
-                      child: Center(
-                        child: Text(
-                          sum + " PLN",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                              color: Colors.amber
                           ),
                         ),
                       ),

@@ -1,5 +1,6 @@
 import 'package:bank_web_app/controllers/SharedController.dart';
 import 'package:bank_web_app/models/Account.dart';
+import 'package:bank_web_app/models/MakeTransfer.dart';
 import 'package:bank_web_app/widgets/error_window.dart';
 import 'package:flutter/material.dart';
 
@@ -266,14 +267,21 @@ class _transactionState extends State<transaction> {
                   style: OutlinedButton.styleFrom(
                     side: BorderSide(color: Colors.amber),
                   ),
-                  onPressed: () {
-                    if(sumController.text!="" && titleController.text!="" && accountController!="") {
-                      SharedController.makeTransfer(
+                  onPressed: () async{
+                    if(sumController.text!="" &&
+                        titleController.text!="" &&
+                        accountController!="") {
+                      var result = await SharedController.makeTransfer(
                           titleController.text,
                           sumController.text,
-                          accountController.text,
-                          account.accountNumber);
-                      Navigator.pushNamed(context, '/home');
+                          accountController.text);
+                      if (result is String) {
+                        showErrorDialog(context);
+                      } else if(result is MakeTransfer) {
+                        Navigator.pushNamed(context, '/home');
+                      }else{
+
+                      }
                     }
                   },
                 ),
