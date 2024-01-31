@@ -50,7 +50,7 @@ class _historyState extends State<history> {
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     if(snapshot.data is List<String>){
-                      showErrorDialog(context);
+                      showErrorDialog(context, snapshot.data![0]);
                       return Text("");
                     }else {
                       return buildHistory(snapshot.data!);

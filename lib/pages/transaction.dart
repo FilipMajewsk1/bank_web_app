@@ -1,6 +1,7 @@
 import 'package:bank_web_app/controllers/SharedController.dart';
 import 'package:bank_web_app/models/Account.dart';
 import 'package:bank_web_app/models/MakeTransfer.dart';
+import 'package:bank_web_app/tools/DataValidation.dart';
 import 'package:bank_web_app/widgets/error_window.dart';
 import 'package:flutter/material.dart';
 
@@ -25,6 +26,9 @@ class _transactionState extends State<transaction> {
     super.initState();
     futureAccount = SharedController.getAccount();
   }
+  final _titleKey = GlobalKey<FormState>();
+  final _accountKey = GlobalKey<FormState>();
+  final _sumKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +82,7 @@ class _transactionState extends State<transaction> {
                                 builder:(context, snapshot) {
                                   if(snapshot.hasData){
                                     if(snapshot.data is String){
-                                      showErrorDialog(context);
+                                      showErrorDialog(context, snapshot.data);
                                       return Text("");
                                     }else{
                                     account = snapshot.data!;
@@ -118,23 +122,37 @@ class _transactionState extends State<transaction> {
                 padding: const EdgeInsets.fromLTRB(250, 1, 250, 5),
                 child: SizedBox(
                   width: 400,
-                  child: TextFormField(
-                    controller: titleController,
-                    style: TextStyle(
-                      color: Colors.amber[100],
-                    ),
-                    cursorColor: Colors.amber,
-                    decoration: const InputDecoration(
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.amber),
+                  child: Form(
+                    key:_titleKey,
+                    child: TextFormField(
+                      controller: titleController,
+                      style: TextStyle(
+                        color: Colors.amber[100],
                       ),
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.amber),
+                      cursorColor: Colors.amber,
+                      decoration: const InputDecoration(
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.amber),
+                        ),
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.amber),
+                        ),
+                        labelText: 'Enter the title of the transaction',
+                        labelStyle: TextStyle(
+                          color: Colors.amber,
+                        ),
+                        errorStyle: TextStyle(
+                          color: Colors.red,
+                        ),
                       ),
-                      labelText: 'Enter the title of the transaction',
-                      labelStyle: TextStyle(
-                        color: Colors.amber,
-                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Field cannot be empty';
+                        } else if (DataValidator.isAlphabetic(value) == false) {
+                          return 'Invalid title';
+                        }
+                        return null;
+                      },
                     ),
                   ),
                 ),
@@ -193,23 +211,37 @@ class _transactionState extends State<transaction> {
                 padding: const EdgeInsets.fromLTRB(250, 1, 250, 5),
                 child: SizedBox(
                   width: 400,
-                  child: TextFormField(
-                    controller: accountController,
-                    style: TextStyle(
-                      color: Colors.amber[100],
-                    ),
-                    cursorColor: Colors.amber,
-                    decoration: const InputDecoration(
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.amber),
+                  child: Form(
+                    key:_accountKey,
+                    child: TextFormField(
+                      controller: accountController,
+                      style: TextStyle(
+                        color: Colors.amber[100],
                       ),
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.amber),
+                      cursorColor: Colors.amber,
+                      decoration: const InputDecoration(
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.amber),
+                        ),
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.amber),
+                        ),
+                        labelText: 'Enter the receivers account number',
+                        labelStyle: TextStyle(
+                          color: Colors.amber,
+                        ),
+                        errorStyle: TextStyle(
+                          color: Colors.red,
+                        ),
                       ),
-                      labelText: 'Enter the receivers account number',
-                      labelStyle: TextStyle(
-                        color: Colors.amber,
-                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Field cannot be empty';
+                        } else if (DataValidator.isLengthTwentySixDigits(value) == false) {
+                          return 'Invalid number';
+                        }
+                        return null;
+                      },
                     ),
                   ),
                 ),
@@ -231,23 +263,37 @@ class _transactionState extends State<transaction> {
                 padding: const EdgeInsets.fromLTRB(250, 1, 250, 5),
                 child: SizedBox(
                   width: 400,
-                  child: TextFormField(
-                    controller: sumController,
-                    style: TextStyle(
-                      color: Colors.amber[100],
-                    ),
-                    cursorColor: Colors.amber,
-                    decoration: const InputDecoration(
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.amber),
+                  child: Form(
+                    key:_sumKey,
+                    child: TextFormField(
+                      controller: sumController,
+                      style: TextStyle(
+                        color: Colors.amber[100],
                       ),
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.amber),
+                      cursorColor: Colors.amber,
+                      decoration: const InputDecoration(
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.amber),
+                        ),
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.amber),
+                        ),
+                        labelText: 'Enter the sum',
+                        labelStyle: TextStyle(
+                          color: Colors.amber,
+                        ),
+                        errorStyle: TextStyle(
+                          color: Colors.red,
+                        ),
                       ),
-                      labelText: 'Enter the sum',
-                      labelStyle: TextStyle(
-                        color: Colors.amber,
-                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Field cannot be empty';
+                        } else if (DataValidator.isNumericWithTwoDecimals(value)== false) {
+                          return 'Invalid sum';
+                        }
+                        return null;
+                      },
                     ),
                   ),
                 ),
@@ -268,15 +314,15 @@ class _transactionState extends State<transaction> {
                     side: BorderSide(color: Colors.amber),
                   ),
                   onPressed: () async{
-                    if(sumController.text!="" &&
-                        titleController.text!="" &&
-                        accountController!="") {
+                    if(_titleKey.currentState?.validate() != false &&
+                        _accountKey.currentState?.validate() != false &&
+                        _sumKey.currentState?.validate() != false) {
                       var result = await SharedController.makeTransfer(
                           titleController.text,
                           sumController.text,
                           accountController.text);
                       if (result is String) {
-                        showErrorDialog(context);
+                        showErrorDialog(context,result);
                       } else if(result is MakeTransfer) {
                         Navigator.pushNamed(context, '/home');
                       }else{

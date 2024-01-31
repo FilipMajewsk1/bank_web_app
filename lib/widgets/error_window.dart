@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 
 class ErrorDialog extends StatelessWidget {
+  final String message;
+
+  ErrorDialog({required this.message});
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -13,10 +17,17 @@ class ErrorDialog extends StatelessWidget {
         ),
       ),
       backgroundColor: Colors.grey[850],
+      content: Text(
+        message,
+        style: TextStyle(
+            fontSize: 16,
+            color: Colors.white
+        ),
+      ),
       actions: <Widget>[
         OutlinedButton(
           child: Text(
-            "Ok",
+            "OK",
             style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
@@ -26,19 +37,18 @@ class ErrorDialog extends StatelessWidget {
           style: OutlinedButton.styleFrom(
             side: BorderSide(color: Colors.amber),
           ),
-          onPressed: () {
-           Navigator.of(context).pop();
-            }
+          onPressed: () => Navigator.of(context).pop(),
         ),
       ],
     );
   }
 }
-void showErrorDialog(BuildContext context) {
+
+void showErrorDialog(BuildContext context, String message) {
   showDialog(
     context: context,
     builder: (BuildContext context) {
-      return ErrorDialog();
+      return ErrorDialog(message: message);
     },
   );
 }

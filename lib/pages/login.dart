@@ -1,5 +1,6 @@
 import 'package:bank_web_app/controllers/SharedController.dart';
 import 'package:bank_web_app/pages/home.dart';
+import 'package:bank_web_app/tools/DataValidation.dart';
 import 'package:bank_web_app/tools/StateControll.dart';
 import 'package:bank_web_app/widgets/error_window.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +21,8 @@ class _loginState extends State<login> {
   var passwordInstructions;
   Lstate lstate = Lstate.WAITING_FOR_LOGIN;
   String positions = "";
+  final _loginKey = GlobalKey<FormState>();
+  final _passwordKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -47,23 +50,37 @@ class _loginState extends State<login> {
                   padding: const EdgeInsets.all(5.0),
                   child: SizedBox(
                     width: 300,
-                    child: TextField(
-                      controller: emaliController,
-                      style: TextStyle(
-                        color: Colors.amber[100],
-                      ),
-                      cursorColor: Colors.amber,
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.amber),
+                    child: Form(
+                      key: _loginKey,
+                      child: TextFormField(
+                        controller: emaliController,
+                        style: TextStyle(
+                          color: Colors.amber[100],
                         ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.amber, width: 2.0),
+                        cursorColor: Colors.amber,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.amber),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.amber, width: 2.0),
+                          ),
+                          labelText: 'Login',
+                          labelStyle: TextStyle(
+                            color: Colors.amber,
+                          ),
+                          errorStyle: TextStyle(
+                            color: Colors.red,
+                          ),
                         ),
-                        labelText: 'Login',
-                        labelStyle: TextStyle(
-                          color: Colors.amber,
-                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Field cannot be empty';
+                          } else if (DataValidator.isValidEmail(value) == false) {
+                            return 'Invalid email';
+                          }
+                          return null;
+                        },
                       ),
                     ),
                   ),
@@ -73,24 +90,38 @@ class _loginState extends State<login> {
                   padding: const EdgeInsets.all(5.0),
                   child: SizedBox(
                     width: 300,
-                    child: TextField(
-                      controller: passwordController,
-                      style: TextStyle(
-                        color: Colors.amber[100],
-                      ),
-                      cursorColor: Colors.amber,
-                      obscureText: true,
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.amber),
+                    child: Form(
+                      key:_passwordKey,
+                      child: TextFormField(
+                        controller: passwordController,
+                        style: TextStyle(
+                          color: Colors.amber[100],
                         ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.amber, width: 2.0),
+                        cursorColor: Colors.amber,
+                        obscureText: true,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.amber),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.amber, width: 2.0),
+                          ),
+                          labelText: 'Password combination:',
+                          labelStyle: TextStyle(
+                            color: Colors.amber,
+                          ),
+                          errorStyle: TextStyle(
+                            color: Colors.red,
+                          ),
                         ),
-                        labelText: 'Password combination:',
-                        labelStyle: TextStyle(
-                          color: Colors.amber,
-                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Field cannot be empty';
+                          } else if (DataValidator.isLengthThree(value) == false) {
+                            return 'Invalid password length';
+                          }
+                          return null;
+                        },
                       ),
                     ),
                   ),
@@ -115,10 +146,10 @@ class _loginState extends State<login> {
                           side: BorderSide(color: Colors.amber),
                         ),
                         onPressed: () async{
-                          if(emaliController.text!='' && emaliController.text!=null && lstate == Lstate.WAITING_FOR_LOGIN){
+                          if(_loginKey.currentState?.validate() != false && lstate == Lstate.WAITING_FOR_LOGIN){
                             passwordInstructions = await SharedController.getPassword(emaliController.text);
                             if(passwordInstructions is String){
-                              showErrorDialog(context);
+                              showErrorDialog(context, passwordInstructions);
                             }else{
                               positions = passwordInstructions!.positions.join(" ");
                               setState(() {
@@ -145,10 +176,9 @@ class _loginState extends State<login> {
                           side: BorderSide(color: Colors.amber),
                         ),
                         onPressed: () async{
-                          if(emaliController.text!='' &&
-                              emaliController.text!=null &&
+                          if(_loginKey.currentState?.validate() != false &&
                               lstate == Lstate.WAITING_FOR_PASSWORD &&
-                              passwordController.text.length == 3){
+                              _passwordKey.currentState?.validate() != false){
 
                             Future.delayed(Duration(seconds: 3), () async{
                               var result = await SharedController.logIn(
@@ -156,7 +186,7 @@ class _loginState extends State<login> {
                                   emaliController.text,
                                   passwordController.text);
                               if(result is String){
-                                showErrorDialog(context);
+                                showErrorDialog(context, result);
                               }
                               else {
                                 setState(() {

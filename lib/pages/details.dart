@@ -76,7 +76,7 @@ class _detailsState extends State<details> {
                             builder: (context, snapshot){
                               if(snapshot.hasData) {
                                 if(snapshot.data is String){
-                                  showErrorDialog(context);
+                                  showErrorDialog(context, snapshot.data);
                                   return Text("");
                                 }else{
                                 return Text(
@@ -126,7 +126,7 @@ class _detailsState extends State<details> {
                           builder: (context, snapshot){
                             if(snapshot.hasData) {
                               if(snapshot.data is String){
-                                showErrorDialog(context);
+                                showErrorDialog(context, snapshot.data);
                                 return Text("");
                               }else{
                               return Text(
@@ -174,7 +174,7 @@ class _detailsState extends State<details> {
                               builder: (context, snapshot){
                                 if(snapshot.hasData) {
                                   if(snapshot.data is String){
-                                    showErrorDialog(context);
+                                    showErrorDialog(context, snapshot.data);
                                     return Text("");
                                   }else{
                                   return Text(
@@ -222,7 +222,7 @@ class _detailsState extends State<details> {
                               builder: (context, snapshot){
                                 if(snapshot.hasData) {
                                   if(snapshot.data is String){
-                                    showErrorDialog(context);
+                                    showErrorDialog(context, snapshot.data);
                                     return Text("");
                                   }else{
                                   return Text(
@@ -270,7 +270,7 @@ class _detailsState extends State<details> {
                               builder: (context, snapshot){
                                 if(snapshot.hasData) {
                                   if(snapshot.data is String){
-                                    showErrorDialog(context);
+                                    showErrorDialog(context, snapshot.data);
                                     return Text("");
                                   }else{
                                   return Text(
@@ -318,7 +318,7 @@ class _detailsState extends State<details> {
                               builder: (context, snapshot){
                                 if(snapshot.hasData) {
                                   if(snapshot.data is String){
-                                    showErrorDialog(context);
+                                    showErrorDialog(context, snapshot.data);
                                     return Text("");
                                   }else{
                                   return Text(

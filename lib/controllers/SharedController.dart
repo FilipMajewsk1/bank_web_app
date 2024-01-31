@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:bank_web_app/models/Account.dart';
 import 'package:bank_web_app/models/Client.dart';
 import 'package:bank_web_app/models/Password.dart';
+import 'package:bank_web_app/tools/DataValidation.dart';
 import 'package:bank_web_app/tools/StateControll.dart';
 import 'package:provider/provider.dart';
 import 'package:requests/requests.dart';
@@ -47,32 +48,43 @@ class SharedController{
   }
 
   static Future<dynamic> getPassword(String email)async{
-    var response = await Requests.get(baseURL+"login?email="+email);
-    if(response.statusCode == 200) {
-      final bodyByte = utf8.decode(response.bodyBytes);
-      final body = json.decode(bodyByte);
-      final password = Password.fromJson(body);
-      return password;
+    if(DataValidator.isValidEmail(email)== true) {
+      var response = await Requests.get(baseURL + "login?email=" + email);
+      if (response.statusCode == 200) {
+        final bodyByte = utf8.decode(response.bodyBytes);
+        final body = json.decode(bodyByte);
+        final password = Password.fromJson(body);
+        return password;
+      }
+      else {
+        return "Cant find email";
+      }
     }
-    else{
-      return "Cant find email";
+    else {
+      return "Invalid data";
     }
   }
 
   static Future<dynamic> logIn(int pId, String email, String password)async{
-    var response = await Requests.post(
-        baseURL+"login",
-        json: Login(pId: pId, email: email, password: password).toJson(),
-        withCredentials: true
-    );
-    if(response.statusCode == 200) {
-      final bodyByte = utf8.decode(response.bodyBytes);
-      final body = json.decode(bodyByte);
-      final client = Client.fromJson(body);
-      return client;
+    if(DataValidator.isValidEmail(email) == true &&
+        DataValidator.isLengthThree(password) && pId is int) {
+      var response = await Requests.post(
+          baseURL + "login",
+          json: Login(pId: pId, email: email, password: password).toJson(),
+          withCredentials: true
+      );
+      if (response.statusCode == 200) {
+        final bodyByte = utf8.decode(response.bodyBytes);
+        final body = json.decode(bodyByte);
+        final client = Client.fromJson(body);
+        return client;
+      }
+      else {
+        return "Incorrect password";
+      }
     }
-    else{
-      return "Incorrect password";
+    else {
+      return "Invalid data";
     }
   }
 
@@ -93,16 +105,26 @@ class SharedController{
   }
 
   static Future<dynamic> makeTransfer(String title, String sum, String toAccountNumber)async{
-    var response = await Requests.post(
-      baseURL+"norm/transfers",
-      json: MakeTransfer( title: title, sum: sum, toAccountNumber: toAccountNumber).toJson(),
-      withCredentials: true
-    );
-    if(response.statusCode == 200) {
-      final bodyByte = utf8.decode(response.bodyBytes);
-      final body = json.decode(bodyByte);
-      final transfer = MakeTransfer.fromJson(body);
-      return transfer;
+    if(DataValidator.isAlphabetic(title) == true &&
+        DataValidator.isNumericWithTwoDecimals(sum) ==true &&
+        DataValidator.isLengthTwentySixDigits(toAccountNumber)== true) {
+      var response = await Requests.post(
+          baseURL + "norm/transfers",
+          json: MakeTransfer(
+              title: title, sum: sum, toAccountNumber: toAccountNumber)
+              .toJson(),
+          withCredentials: true
+      );
+      if(response.statusCode == 200) {
+
+        final bodyByte = utf8.decode(response.bodyBytes);
+        final body = json.decode(bodyByte);
+        final transfer = MakeTransfer.fromJson(body);
+        return transfer;
+      }
+      else{
+        return "Invalid data";
+      }
     }
     else{
       return "Invalid data";

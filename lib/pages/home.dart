@@ -157,7 +157,7 @@ class _homeState extends State<home> {
                           builder:(context, snapshot) {
                             if(snapshot.hasData){
                               if(snapshot.data is String){
-                                showErrorDialog(context);
+                                showErrorDialog(context, snapshot.data);
                                 return Text("");
                               }else {
                                 return Text(
