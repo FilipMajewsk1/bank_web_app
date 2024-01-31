@@ -1,5 +1,6 @@
 import 'package:bank_web_app/controllers/SharedController.dart';
 import 'package:bank_web_app/models/Account.dart';
+import 'package:bank_web_app/widgets/error_window.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -14,8 +15,8 @@ class details extends StatefulWidget {
 }
 
 class _detailsState extends State<details> {
-  late Future<Client> futureClient;
-  late Future<Account> futureAccount;
+  var futureClient;
+  var futureAccount;
 
   @override
   void initState() {
@@ -70,10 +71,14 @@ class _detailsState extends State<details> {
                         ),
                         Padding(
                           padding: EdgeInsets.all(5.0),
-                          child: FutureBuilder<Client>(
+                          child: FutureBuilder<dynamic>(
                             future: futureClient,
                             builder: (context, snapshot){
                               if(snapshot.hasData) {
+                                if(snapshot.data is String){
+                                  showErrorDialog(context);
+                                  return Text("");
+                                }else{
                                 return Text(
                                   "${snapshot.data!.name} "+"${snapshot.data!.surname}",
                                   style: TextStyle(
@@ -82,6 +87,7 @@ class _detailsState extends State<details> {
                                       color: Colors.amber[100]
                                   ),
                                 );
+                                }
                               } else{
                                 return CircularProgressIndicator();
                               }
@@ -115,10 +121,14 @@ class _detailsState extends State<details> {
                         ),
                         Padding(
                           padding: EdgeInsets.all(5.0),
-                            child: FutureBuilder<Account>(
+                            child: FutureBuilder<dynamic>(
                           future: futureAccount,
                           builder: (context, snapshot){
                             if(snapshot.hasData) {
+                              if(snapshot.data is String){
+                                showErrorDialog(context);
+                                return Text("");
+                              }else{
                               return Text(
                                 "${snapshot.data!.balance}",
                                 style: TextStyle(
@@ -126,7 +136,7 @@ class _detailsState extends State<details> {
                                     fontSize: 18,
                                     color: Colors.amber[100]
                                 ),
-                              );
+                              );}
                             } else{
                               return CircularProgressIndicator();
                             }
@@ -159,10 +169,14 @@ class _detailsState extends State<details> {
                         ),
                         Padding(
                           padding: EdgeInsets.all(5.0),
-                            child: FutureBuilder<Account>(
+                            child: FutureBuilder<dynamic>(
                               future: futureAccount,
                               builder: (context, snapshot){
                                 if(snapshot.hasData) {
+                                  if(snapshot.data is String){
+                                    showErrorDialog(context);
+                                    return Text("");
+                                  }else{
                                   return Text(
                                     "${snapshot.data!.accountNumber}",
                                     style: TextStyle(
@@ -170,7 +184,7 @@ class _detailsState extends State<details> {
                                         fontSize: 18,
                                         color: Colors.amber[100]
                                     ),
-                                  );
+                                  );}
                                 } else{
                                   return CircularProgressIndicator();
                                 }
@@ -203,10 +217,14 @@ class _detailsState extends State<details> {
                         ),
                         Padding(
                             padding: EdgeInsets.all(5.0),
-                            child: FutureBuilder<Client>(
+                            child: FutureBuilder<dynamic>(
                               future: futureClient,
                               builder: (context, snapshot){
                                 if(snapshot.hasData) {
+                                  if(snapshot.data is String){
+                                    showErrorDialog(context);
+                                    return Text("");
+                                  }else{
                                   return Text(
                                     "${snapshot.data!.email}",
                                     style: TextStyle(
@@ -214,7 +232,7 @@ class _detailsState extends State<details> {
                                         fontSize: 18,
                                         color: Colors.amber[100]
                                     ),
-                                  );
+                                  );}
                                 } else{
                                   return CircularProgressIndicator();
                                 }
@@ -247,10 +265,14 @@ class _detailsState extends State<details> {
                         ),
                         Padding(
                             padding: EdgeInsets.all(5.0),
-                            child: FutureBuilder<Client>(
+                            child: FutureBuilder<dynamic>(
                               future: futureClient,
                               builder: (context, snapshot){
                                 if(snapshot.hasData) {
+                                  if(snapshot.data is String){
+                                    showErrorDialog(context);
+                                    return Text("");
+                                  }else{
                                   return Text(
                                     "${snapshot.data!.pesel}",
                                     style: TextStyle(
@@ -258,7 +280,7 @@ class _detailsState extends State<details> {
                                         fontSize: 18,
                                         color: Colors.amber[100]
                                     ),
-                                  );
+                                  );}
                                 } else{
                                   return CircularProgressIndicator();
                                 }
@@ -291,10 +313,14 @@ class _detailsState extends State<details> {
                         ),
                         Padding(
                             padding: EdgeInsets.all(5.0),
-                            child: FutureBuilder<Client>(
+                            child: FutureBuilder<dynamic>(
                               future: futureClient,
                               builder: (context, snapshot){
                                 if(snapshot.hasData) {
+                                  if(snapshot.data is String){
+                                    showErrorDialog(context);
+                                    return Text("");
+                                  }else{
                                   return Text(
                                     "${snapshot.data!.phoneNum}",
                                     style: TextStyle(
@@ -302,7 +328,7 @@ class _detailsState extends State<details> {
                                         fontSize: 18,
                                         color: Colors.amber[100]
                                     ),
-                                  );
+                                  );}
                                 } else{
                                   return CircularProgressIndicator();
                                 }

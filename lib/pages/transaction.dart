@@ -1,5 +1,6 @@
 import 'package:bank_web_app/controllers/SharedController.dart';
 import 'package:bank_web_app/models/Account.dart';
+import 'package:bank_web_app/widgets/error_window.dart';
 import 'package:flutter/material.dart';
 
 class transaction extends StatefulWidget {
@@ -15,7 +16,7 @@ class _transactionState extends State<transaction> {
   TextEditingController accountController = TextEditingController();
   TextEditingController sumController = TextEditingController();
 
-  late Future<Account> futureAccount;
+  var futureAccount;
   late Account account;
 
   @override
@@ -71,10 +72,14 @@ class _transactionState extends State<transaction> {
                         ),
                         Padding(
                           padding: EdgeInsets.all(5.0),
-                            child:FutureBuilder<Account>(
+                            child:FutureBuilder<dynamic>(
                                 future: futureAccount,
                                 builder:(context, snapshot) {
                                   if(snapshot.hasData){
+                                    if(snapshot.data is String){
+                                      showErrorDialog(context);
+                                      return Text("");
+                                    }else{
                                     account = snapshot.data!;
                                     return Text(
                                       "${snapshot.data!.balance}",
@@ -84,7 +89,7 @@ class _transactionState extends State<transaction> {
                                           color: Colors.amber[100]
                                       ),
                                     );
-                                  } else{
+                                  }} else{
                                     return CircularProgressIndicator();
                                   }
                                 }

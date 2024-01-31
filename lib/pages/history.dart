@@ -1,4 +1,5 @@
 import 'package:bank_web_app/controllers/SharedController.dart';
+import 'package:bank_web_app/widgets/error_window.dart';
 import 'package:bank_web_app/widgets/history_card.dart';
 import 'package:flutter/material.dart';
 
@@ -13,10 +14,12 @@ class history extends StatefulWidget {
 
 class _historyState extends State<history> {
 
-  Future<List<GetTransfer>> list = SharedController.getAllTransfersForClient();
+  var list;
+
   @override
   void initState() {
     super.initState();
+    list = SharedController.getAllTransfersForClient();
   }
 
   @override
@@ -43,12 +46,16 @@ class _historyState extends State<history> {
           child:SizedBox(
             width: 550,
             height: 1000,
-            child: FutureBuilder<List<GetTransfer>>(
+            child: FutureBuilder<dynamic>(
                 future: list,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
-                    final listt = snapshot.data!;
-                    return buildHistory(listt);
+                    if(snapshot.data is List<String>){
+                      showErrorDialog(context);
+                      return Text("");
+                    }else {
+                      return buildHistory(snapshot.data);
+                    }
                   }
                   else {
                     return (Center(

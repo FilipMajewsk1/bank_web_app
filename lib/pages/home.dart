@@ -1,6 +1,7 @@
 import 'dart:html';
 
 import 'package:bank_web_app/controllers/SharedController.dart';
+import 'package:bank_web_app/widgets/error_window.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -16,7 +17,7 @@ class home extends StatefulWidget {
 
 class _homeState extends State<home> {
 
-  late Future<Account> futureAccount;
+  var futureAccount;
   late Account account;
 
   @override
@@ -151,18 +152,23 @@ class _homeState extends State<home> {
                       ),
                       Padding(
                         padding: EdgeInsets.all(5.0),
-                        child:FutureBuilder<Account>(
+                        child:FutureBuilder<dynamic>(
                           future: futureAccount,
                           builder:(context, snapshot) {
                             if(snapshot.hasData){
-                              return Text(
-                                "${snapshot.data!.balance}",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 24,
-                                    color: Colors.amber[100]
-                                ),
-                              );
+                              if(snapshot.data is String){
+                                showErrorDialog(context);
+                                return Text("");
+                              }else {
+                                return Text(
+                                  "${snapshot.data!.balance}",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 24,
+                                      color: Colors.amber[100]
+                                  ),
+                                );
+                              }
                             } else{
                               return CircularProgressIndicator();
                             }

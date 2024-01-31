@@ -1,6 +1,7 @@
 import 'package:bank_web_app/controllers/SharedController.dart';
 import 'package:bank_web_app/pages/home.dart';
 import 'package:bank_web_app/tools/StateControll.dart';
+import 'package:bank_web_app/widgets/error_window.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -16,7 +17,7 @@ class _loginState extends State<login> {
 
   TextEditingController emaliController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  Password? passwordInstructions;
+  var passwordInstructions;
   Lstate lstate = Lstate.WAITING_FOR_LOGIN;
   String positions = "";
 
@@ -116,7 +117,9 @@ class _loginState extends State<login> {
                         onPressed: () async{
                           if(emaliController.text!='' && emaliController.text!=null && lstate == Lstate.WAITING_FOR_LOGIN){
                             passwordInstructions = await SharedController.getPassword(emaliController.text);
-                            if(passwordInstructions != null){
+                            if(passwordInstructions is String){
+                              showErrorDialog(context);
+                            }else{
                               positions = passwordInstructions!.positions.join(" ");
                               setState(() {
                                 lstate = Lstate.WAITING_FOR_PASSWORD;
@@ -146,15 +149,19 @@ class _loginState extends State<login> {
                               emaliController.text!=null &&
                               lstate == Lstate.WAITING_FOR_PASSWORD &&
                               passwordController.text.length == 3){
-                            setState(() {
-                              lstate = Lstate.WAITING_FOR_RESPONSE;
-                            });
+
                             Future.delayed(Duration(seconds: 3), () async{
                               var result = await SharedController.logIn(
                                   passwordInstructions!.id!,
                                   emaliController.text,
                                   passwordController.text);
-                              if (result != null) {
+                              if(result is String){
+                                showErrorDialog(context);
+                              }
+                              else {
+                                setState(() {
+                                  lstate = Lstate.WAITING_FOR_RESPONSE;
+                                });
                                 var stateControll = Provider.of<StateControll>(
                                     context, listen: false);
                                 stateControll.setStateLogin(result);
