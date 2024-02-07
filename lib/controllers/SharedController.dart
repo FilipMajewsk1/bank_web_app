@@ -65,9 +65,9 @@ class SharedController{
     }
   }
 
-  static Future<dynamic> logIn(int pId, String email, String password)async{
+  static Future<dynamic> logIn(String pId, String email, String password)async{
     if(DataValidator.isValidEmail(email) == true &&
-        DataValidator.isLengthThree(password) && pId is int) {
+        DataValidator.isLengthThree(password)) {
       var response = await Requests.post(
           baseURL + "login",
           json: Login(pId: pId, email: email, password: password).toJson(),
@@ -78,6 +78,8 @@ class SharedController{
         final body = json.decode(bodyByte);
         final client = Client.fromJson(body);
         return client;
+      }else if(response.statusCode == 503){
+        return "Too many login attempts. Try again in a few minutes";
       }
       else {
         return "Incorrect password";

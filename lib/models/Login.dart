@@ -1,5 +1,5 @@
 class Login{
-  int pId;
+  String pId;
   String email;
   String password;
 
@@ -19,7 +19,7 @@ class Login{
 
   Map<String, dynamic> toJson() {
     return {
-      'id': pId,
+      'uuid': pId,
       'email': email,
       'password': password
     };

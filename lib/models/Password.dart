@@ -1,5 +1,5 @@
 class Password{
-  int id;
+  String id;
   List<int> positions;
 
   Password({
@@ -9,7 +9,7 @@ class Password{
 
   factory Password.fromJson(Map<String, dynamic> json) {
     return Password(
-      id: json['id'],
+      id: json['uuid'],
       positions: json['positions'].toString()
           .split('/')
           .where((element) => element.isNotEmpty)
